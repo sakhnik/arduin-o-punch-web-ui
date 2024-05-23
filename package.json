@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear"
+    "start": "sirv public --no-clear --single",
+    "start:dev": "concurrently \"npm run dev\" \"node server.js\""
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",
@@ -19,6 +20,10 @@
     "svelte": "^3.55.0"
   },
   "dependencies": {
+    "concurrently": "^8.2.2",
+    "express": "^4.19.2",
+    "inline-source": "^8.0.3",
+    "inliner": "^1.13.1",
     "sirv-cli": "^2.0.0"
   }
 }
