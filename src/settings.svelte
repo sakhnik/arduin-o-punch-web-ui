@@ -5,21 +5,42 @@
 </style>
 
 <script>
+import { onMount } from 'svelte'
 import KeyEntry from './key-entry.svelte'
 
 let id = 19
-let key = '112233445566'
-let record_size = 512
-let record_bits = 2
-let record_days = 1
+let cardKey = '112233445566'
+let recordSize = 512
+let recordBits = 2
+let recordDays = 1
 
-let bit_sizes = [
+let bitSizes = [
   { id: 1, text: '0–1' },
   { id: 2, text: '0–3' },
   { id: 4, text: '0–15' },
   { id: 8, text: '0–255' },
 ];
 
+onMount(async () => {
+  const response = await fetch('/settings');
+  const text = await response.text();
+
+  const lines = text.trim().split('\n');
+  lines.forEach(line => {
+    const [key, value] = line.split('=');
+    if (key == 'id') {
+      id = Number(value);
+    } else if (key == 'key') {
+      cardKey = value;
+    } else if (key == 'rec-size') {
+      recordSize = Number(value);
+    } else if (key == 'rec-bits') {
+      recordBits = Number(value);
+    } else if (key == 'rec-days') {
+      recordDays = Number(value);
+    }
+  });
+});
 </script>
 
 <div class="container">
@@ -33,27 +54,27 @@ let bit_sizes = [
       </tr>
       <tr>
         <td><label for='key'>Ключ:</label></td>
-        <td><KeyEntry id='key' bind:value={key}/></td>
+        <td><KeyEntry id='key' bind:value={cardKey}/></td>
       </tr>
       <tr>
         <td><label for='record-size'>Записів у журналі:</label></td>
-        <td><input type='number' id='record-size' name='rec-size' bind:value={record_size}/></td>
+        <td><input type='number' id='record-size' name='rec-size' bind:value={recordSize}/></td>
       </tr>
       <tr>
         <td><label for='record-bits'>Відміток на запис:</label></td>
         <td>
-          <select id='record-bits' name='rec-bits' bind:value={record_bits}>
-{#each bit_sizes as bit_size_option}
-			<option value={bit_size_option.id}>
-				{bit_size_option.text}
-			</option>
+          <select id='record-bits' name='rec-bits' bind:value={recordBits}>
+{#each bitSizes as bit_size_option}
+            <option value={bit_size_option.id}>
+                {bit_size_option.text}
+            </option>
 {/each}
           </select>
         </td>
       </tr>
       <tr>
         <td><label for='record-days'>Період журналу (днів):</label></td>
-        <td><input type='number' id='record-days' name='rec-days' bind:value={record_days}/></td>
+        <td><input type='number' id='record-days' name='rec-days' bind:value={recordDays}/></td>
       </tr>
       <tr>
         <td></td>

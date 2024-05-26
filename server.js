@@ -7,6 +7,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+var storedSettings = {
+  id: '19',
+  key: '112233445566',
+  'rec-size': '512',
+  'rec-bits': '2',
+  'rec-days': '1'
+};
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -22,16 +30,19 @@ app.use(
   })
 );
 
-// Additional API route
-app.post('/settings', (req, res) => {
-  console.log(req.body);
-  res.redirect('/');
+app.get('/settings', (req, res) => {
+  let response = '';
+  for (const [key, value] of Object.entries(storedSettings)) {
+    response += `${key}=${value}\n`;
+  }
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(response);
 });
 
-// Example POST route
-app.post('/api/submit', (req, res) => {
-  const { name, email } = req.body;
-  res.json({ success: true, name, email });
+// Store settings
+app.post('/settings', (req, res) => {
+  storedSettings = req.body;
+  res.redirect('/');
 });
 
 app.listen(PORT, () => {
