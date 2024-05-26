@@ -1,7 +1,4 @@
 <style>
-.container {
-  font-family: sans-serif;
-}
 </style>
 
 <script>
@@ -43,7 +40,7 @@ onMount(async () => {
 });
 </script>
 
-<div class="container">
+<div class="container-settings">
   <h3>Налаштування</h3>
 
   <form method='POST' action='/settings' id='settings-form' target='_self'>

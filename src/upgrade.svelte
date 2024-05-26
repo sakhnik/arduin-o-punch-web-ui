@@ -1,7 +1,4 @@
 <style>
-.container {
-  font-family: sans-serif;
-}
 </style>
 
 <script>
@@ -27,7 +24,7 @@ function onSubmit() {
 }
 </script>
 
-<div class="container">
+<div class="container-upgrade">
   <h3>Оновлення</h3>
   <form method='POST' enctype='multipart/form-data' id='upload-form' on:submit|preventDefault={onSubmit}>
     <input type='file' id='file' name='update' accept='.esp32.bin'/>
