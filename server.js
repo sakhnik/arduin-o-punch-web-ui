@@ -48,3 +48,17 @@ app.post('/settings', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+app.post('/update', (req, res) => {
+  req.on('data', async (chunk) => {
+    //console.log("chunk " + chunk.length);
+  });
+
+  req.on('end', () => {
+    res.send('success');
+  });
+
+  req.on('error', (err) => {
+    res.status(500).send('Error processing file');
+  });
+});
