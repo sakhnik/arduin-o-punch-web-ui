@@ -29,16 +29,16 @@
 
 <script>
 
-export let show = false
+export let isOpen = false
 
 </script>
 
-<div id="popup" class="popup" class:show={show}>
+<div id="popup" class="popup" class:show={isOpen}>
   <div class="popup-content">
-    <button id="closeBtn" on:click={() => show = false}>Закрити</button>
     <slot>
       <p>Popup content</p>
     </slot>
+    <button id="closeBtn" on:click={() => isOpen = false}>Закрити</button>
   </div>
 </div>
-<svelte:window on:keydown={() => show = false} />
+<svelte:window on:keydown={() => isOpen = false} />

@@ -8,6 +8,7 @@
 import Settings from './settings.svelte'
 import Upgrade from './upgrade.svelte'
 import Popup from './popup.svelte'
+import Record from './record.svelte'
 
 let project_version = '1.0.0'
 let git_revision = 'abcdef'
@@ -19,7 +20,9 @@ let recordShown = false
   <p>Версія <span>{project_version}-{git_revision}</span></p>
 
   <Settings/>
-  <Popup bind:show={recordShown}/>
+  <Popup bind:isOpen={recordShown}>
+    <Record bind:isOpen={recordShown}/>
+  </Popup>
   <button on:click={() => recordShown = true}>Журнал</button>
   <Upgrade/>
 </div>
