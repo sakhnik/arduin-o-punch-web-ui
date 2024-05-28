@@ -27,6 +27,7 @@ onMount(async () => {
     const [key, value] = line.split('=');
     if (key == 'id') {
       id = Number(value);
+      document.title = 'AOP ' + value
     } else if (key == 'key') {
       cardKey = value;
     } else if (key == 'rec-size') {
