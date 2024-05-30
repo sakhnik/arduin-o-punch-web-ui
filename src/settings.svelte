@@ -41,7 +41,7 @@ onMount(async () => {
 });
 </script>
 
-<div class="container-settings">
+<div>
   <h3>Налаштування</h3>
 
   <form method='POST' action='/settings' id='settings-form' target='_self'>

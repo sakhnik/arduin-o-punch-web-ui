@@ -14,6 +14,7 @@ var storedSettings = {
   'rec-bits': '2',
   'rec-days': '1'
 };
+let clockOffsetMs = Math.random() * 60 * 5 * 1000;
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -71,6 +72,13 @@ app.get('/record', (req, res) => {
     .join(' ');
   res.setHeader('Content-Type', 'text/plain');
   res.send(response);
+});
+
+app.get('/clock', (req, res) => {
+  let now = new Date(Date.now() + clockOffsetMs);
+  let unixTime = Math.round(now.getTime() / 1000);
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(String(unixTime));
 });
 
 app.post('/update', (req, res) => {
