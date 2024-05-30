@@ -45,7 +45,10 @@ const fetchData = async () => {
 }
 
 function parseRecord(data) {
-  const pairs = data.split(' ');
+  if (!data) {
+    return []
+  }
+  const pairs = data.split(' ')
   return pairs.map(pair => {
     const [card, count] = pair.split(':')
     return { card: parseInt(card, 10), count: parseInt(count, 10) }
@@ -60,6 +63,8 @@ function parseRecord(data) {
   <p>Завантаження…</p>
 {:else if error}
   <p>Помилка: {error}</p>
+{:else if record.length === 0}
+  <p>Відміток ще не було</p>
 {:else}
   <table>
     <thead><tr><th>Картка</th><th>Кількість</th></tr></thead>
