@@ -18,7 +18,7 @@ function updateTime() {
 
 onMount(async () => {
   interval = setInterval(updateTime, 1000);
-  measureClockDifference()
+  measureClockOffset()
 
   return () => {
     clearInterval(interval);
@@ -35,7 +35,9 @@ const readClock = async function() {
   return Number(text.trim())
 }
 
-const measureClockDifference = async function() {
+const measureClockOffset = async function() {
+  clockOffsetMs = null
+  latency = null
   let prevClock = await readClock()
   while (true) {
     let t1 = performance.now()
@@ -51,12 +53,34 @@ const measureClockDifference = async function() {
   }
 }
 
-function formatClockOffset() {
-  const offset = clockOffsetMs % oneDayMs
-  if (offset > 0) {
-    return '+' + offset
+function formatTime(offsetMs) {
+  let milliseconds = offsetMs % 1000
+  offsetMs = Math.round(offsetMs / 1000)
+  if (!offsetMs) {
+    return '0.' + milliseconds
   }
-  return String(offset)
+  let seconds = offsetMs % 60
+  offsetMs = Math.round(offsetMs / 60)
+  let ds = Math.round(milliseconds / 100)
+  if (!offsetMs) {
+    return seconds + "." + ds
+  }
+  let minutes = offsetMs % 60
+  let hours = Math.round(offsetMs / 60)
+  if (seconds < 10) seconds = '0' + seconds
+  if (!hours) {
+    return minutes + ':' + seconds
+  }
+  if (minutes < 10) minutes = '0' + minutes
+  return hours + ':' + minutes + ':' + seconds
+}
+
+function formatClockOffset() {
+  const offsetMs = clockOffsetMs % oneDayMs
+  if (offsetMs > 0) {
+    return '+' + formatTime(offsetMs)
+  }
+  return formatTime(offsetMs)
 }
 
 function formatDayOffset() {
@@ -76,9 +100,9 @@ function formatDayOffset() {
     …
 {:else}
     {deviceClock.toLocaleDateString('uk-UA')}
-{#if clockOffsetMs > oneDayMs || clockOffsetMs < -oneDayMs}
+  {#if clockOffsetMs > oneDayMs || clockOffsetMs < -oneDayMs}
     ({formatDayOffset()} днів)
-{/if}
+  {/if}
 {/if}
   </p>
   <p>Час:
@@ -88,4 +112,5 @@ function formatDayOffset() {
     {deviceClock.toLocaleTimeString('uk-UA')} ({formatClockOffset()} ±{latency} мс)
 {/if}
   </p>
+  <button on:click={measureClockOffset}>Звірити</button>
 </div>

@@ -14,7 +14,8 @@ var storedSettings = {
   'rec-bits': '2',
   'rec-days': '1'
 };
-let clockOffsetMs = Math.random() * 60 * 5 * 1000;
+const maxClockOffsetMs = 5 * 60 * 1000;
+let clockOffsetMs = Math.random() * 2 * maxClockOffsetMs - maxClockOffsetMs;
 
 const app = express();
 const PORT = process.env.PORT || 5000;
