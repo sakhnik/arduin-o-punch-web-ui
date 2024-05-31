@@ -80,7 +80,7 @@ function formatClockOffset() {
   if (offsetMs > 0) {
     return '+' + formatTime(offsetMs)
   }
-  return formatTime(offsetMs)
+  return '−' + formatTime(-offsetMs)
 }
 
 function formatDayOffset() {
