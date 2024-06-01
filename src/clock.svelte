@@ -107,7 +107,7 @@ async function synchronizeClock() {
     now += 1000
   }
   let t1 = performance.now()
-  let bulkWait = msLeft - prevLatency - 50
+  let bulkWait = msLeft - prevLatency - 250
   if (bulkWait > 0) {
     await wait(bulkWait)
   }
