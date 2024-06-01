@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the 'public' directory
@@ -75,11 +76,19 @@ app.get('/record', (req, res) => {
   res.send(response);
 });
 
-app.get('/clock', (req, res) => {
+function getClock(req, res) {
   let now = new Date(Date.now() + clockOffsetMs);
   let unixTime = Math.round(now.getTime() / 1000);
   res.setHeader('Content-Type', 'text/plain');
   res.send(String(unixTime));
+}
+
+app.get('/clock', getClock);
+
+app.post('/clock', (req, res) => {
+  let now = new Date().getTime();
+  clockOffsetMs = Number(req.body) * 1000 - now;
+  getClock(req, res);
 });
 
 app.post('/update', (req, res) => {

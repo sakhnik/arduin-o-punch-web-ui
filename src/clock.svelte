@@ -57,13 +57,13 @@ function formatTime(offsetMs) {
   let milliseconds = offsetMs % 1000
   offsetMs = Math.round(offsetMs / 1000)
   if (!offsetMs) {
-    return '0.' + milliseconds
+    return '0.' + milliseconds + ' с'
   }
   let seconds = offsetMs % 60
   offsetMs = Math.round(offsetMs / 60)
   let ds = Math.round(milliseconds / 100)
   if (!offsetMs) {
-    return seconds + "." + ds
+    return seconds + "." + ds + ' с'
   }
   let minutes = offsetMs % 60
   let hours = Math.round(offsetMs / 60)
@@ -91,6 +91,41 @@ function formatDayOffset() {
   return offset
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function synchronizeClock() {
+  let prevLatency = latency
+  clockOffsetMs = null
+  latency = null
+
+  let now = new Date().getTime()
+  let msLeft = now % 1000
+  if (msLeft < prevLatency) {
+    msLeft += 1000
+    now += 1000
+  }
+  let t1 = performance.now()
+  let bulkWait = msLeft - prevLatency - 50
+  if (bulkWait > 0) {
+    await wait(bulkWait)
+  }
+  // busy wait
+  while (performance.now() - t1 < 0) {
+  }
+  /*const response =*/ await fetch('/clock', {
+    'method': 'POST',
+    'headers': {
+      'Content-Type': 'text/plain',
+    },
+    'body': String(Math.floor(now / 1000)),
+  })
+
+  await wait(750)
+  await measureClockOffset()
+}
+
 </script>
 
 <div>
@@ -109,8 +144,9 @@ function formatDayOffset() {
 {#if !clockOffsetMs || !deviceClock}
     …
 {:else}
-    {deviceClock.toLocaleTimeString('uk-UA')} ({formatClockOffset()} ±{latency} мс)
+    {deviceClock.toLocaleTimeString('uk-UA')} ({formatClockOffset()} ±{latency} мс)
 {/if}
   </p>
   <button on:click={measureClockOffset}>Звірити</button>
+  <button on:click={synchronizeClock}>Підвести</button>
 </div>
