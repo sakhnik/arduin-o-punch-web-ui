@@ -101,25 +101,28 @@ async function synchronizeClock() {
   latency = null
 
   let now = new Date().getTime()
-  let msLeft = now % 1000
+  // Target for the next second edge
+  let targetTime = Math.floor(now / 1000) + 1
+  let msLeft = 1000 - now % 1000
   if (msLeft < prevLatency) {
     msLeft += 1000
-    now += 1000
+    targetTime += 1
   }
   let t1 = performance.now()
-  let bulkWait = msLeft - prevLatency - 250
+  let targetWaitMs = msLeft - prevLatency
+  let bulkWait = targetWaitMs - 50
   if (bulkWait > 0) {
     await wait(bulkWait)
   }
   // busy wait
-  while (performance.now() - t1 < 0) {
+  while (performance.now() - t1 < targetWaitMs) {
   }
   /*const response =*/ await fetch('/clock', {
     'method': 'POST',
     'headers': {
       'Content-Type': 'text/plain',
     },
-    'body': String(Math.floor(now / 1000)),
+    'body': String(targetTime),
   })
 
   await wait(750)
