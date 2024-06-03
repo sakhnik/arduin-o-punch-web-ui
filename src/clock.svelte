@@ -38,6 +38,8 @@ const readClock = async function() {
 const measureClockOffset = async function() {
   clockOffsetMs = null
   latency = null
+  // The device's clock has a second precision. We can estimate the second edge by polling
+  // the clock and measuring with ours.
   let prevClock = await readClock()
   while (true) {
     let t1 = performance.now()

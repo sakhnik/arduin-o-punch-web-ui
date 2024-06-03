@@ -77,17 +77,15 @@ app.get('/record', (req, res) => {
 });
 
 function getClock(req, res) {
-  let now = new Date(Date.now() + clockOffsetMs);
-  let unixTime = Math.round(now.getTime() / 1000);
+  let nowMs = Date.now() + clockOffsetMs;
   res.setHeader('Content-Type', 'text/plain');
-  res.send(String(unixTime));
+  res.send(String(nowMs / 1000));
 }
 
 app.get('/clock', getClock);
 
 app.post('/clock', (req, res) => {
-  let now = new Date().getTime();
-  clockOffsetMs = Number(req.body) * 1000 - now;
+  clockOffsetMs = Number(req.body) * 1000 - Date.now();
   getClock(req, res);
 });
 
