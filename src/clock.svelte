@@ -10,6 +10,12 @@ let clockOffsetMs
 let deviceClock
 let interval
 
+// Get local time in milliseconds from the Unix epoch.
+function getLocalTimeMs(now) {
+  // Timezone offset is negative count of minutes
+  return now.getTime() - now.getTimezoneOffset() * 60000
+}
+
 function updateTime() {
   if (clockOffsetMs !== null) {
     deviceClock = new Date(Date.now() + clockOffsetMs)
@@ -47,9 +53,9 @@ const measureClockOffset = async function() {
     let t2 = performance.now()
     if (curClock != prevClock) {
       latency = (t2 - t1) * 0.5
-      let now = new Date()
       curClock = curClock * 1000 + latency
-      clockOffsetMs = Math.round(curClock - now.getTime())
+      let localTimeMs = getLocalTimeMs(new Date())
+      clockOffsetMs = Math.round(curClock - localTimeMs)
       break
     }
   }
@@ -102,7 +108,7 @@ async function synchronizeClock() {
   clockOffsetMs = null
   latency = null
 
-  let now = new Date().getTime()
+  let now = getLocalTimeMs(new Date())
   // Target for the next second edge
   let targetTime = Math.floor(now / 1000) + 1
   let msLeft = 1000 - now % 1000
@@ -149,7 +155,7 @@ async function synchronizeClock() {
 {#if !clockOffsetMs || !deviceClock}
     …
 {:else}
-    {deviceClock.toLocaleTimeString('uk-UA')} ({formatClockOffset()} ±{latency} мс)
+    {deviceClock.toLocaleTimeString('uk-UA')} ({formatClockOffset()} ±{Math.floor(latency)} мс)
 {/if}
   </p>
   <button on:click={measureClockOffset}>Звірити</button>

@@ -76,8 +76,13 @@ app.get('/record', (req, res) => {
   res.send(response);
 });
 
+function getCurrentTimeMs() {
+  let now = new Date();
+  return now.getTime() - now.getTimezoneOffset() * 60000;
+}
+
 function getClock(req, res) {
-  let nowMs = Date.now() + clockOffsetMs;
+  let nowMs = getCurrentTimeMs() + clockOffsetMs;
   res.setHeader('Content-Type', 'text/plain');
   res.send(String(nowMs / 1000));
 }
@@ -85,7 +90,7 @@ function getClock(req, res) {
 app.get('/clock', getClock);
 
 app.post('/clock', (req, res) => {
-  clockOffsetMs = Number(req.body) * 1000 - Date.now();
+  clockOffsetMs = Number(req.body) * 1000 - getCurrentTimeMs();
   getClock(req, res);
 });
 
