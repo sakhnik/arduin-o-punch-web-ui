@@ -46,38 +46,40 @@ onMount(async () => {
 
   <form method='POST' action='/settings' id='settings-form' target='_self'>
     <table>
-      <tr>
-        <td><label for='id'>Номер:</label></td>
-        <td><input type='number' id='id' name='id' min='1' max='255' bind:value={id}/></td>
-      </tr>
-      <tr>
-        <td><label for='key'>Ключ:</label></td>
-        <td><KeyEntry id='key' bind:value={cardKey}/></td>
-      </tr>
-      <tr>
-        <td><label for='record-size'>Записів у журналі:</label></td>
-        <td><input type='number' id='record-size' name='rec-size' bind:value={recordSize}/></td>
-      </tr>
-      <tr>
-        <td><label for='record-bits'>Відміток на запис:</label></td>
-        <td>
-          <select id='record-bits' name='rec-bits' bind:value={recordBits}>
+      <tbody>
+        <tr>
+          <td><label for='id'>Номер:</label></td>
+          <td><input type='number' id='id' name='id' min='1' max='255' bind:value={id}/></td>
+        </tr>
+        <tr>
+          <td><label for='key'>Ключ:</label></td>
+          <td><KeyEntry id='key' bind:value={cardKey}/></td>
+        </tr>
+        <tr>
+          <td><label for='record-size'>Записів у журналі:</label></td>
+          <td><input type='number' id='record-size' name='rec-size' bind:value={recordSize}/></td>
+        </tr>
+        <tr>
+          <td><label for='record-bits'>Відміток на запис:</label></td>
+          <td>
+            <select id='record-bits' name='rec-bits' bind:value={recordBits}>
 {#each bitSizes as bit_size_option}
-            <option value={bit_size_option.id}>
-                {bit_size_option.text}
-            </option>
+              <option value={bit_size_option.id}>
+                  {bit_size_option.text}
+              </option>
 {/each}
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td><label for='record-days'>Період журналу (днів):</label></td>
-        <td><input type='number' id='record-days' name='rec-days' bind:value={recordDays}/></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td><input type='submit' value='Застосувати'></td>
-      </tr>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label for='record-days'>Період журналу (днів):</label></td>
+          <td><input type='number' id='record-days' name='rec-days' bind:value={recordDays}/></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type='submit' value='Застосувати'></td>
+        </tr>
+      </tbody>
     </table>
   </form>
 </div>

@@ -10,20 +10,20 @@
     "start:dev": "concurrently \"npm run dev\" \"node server.js\""
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
-    "@rollup/plugin-terser": "^0.4.0",
-    "rollup": "^3.15.0",
-    "rollup-plugin-css-only": "^4.3.0",
-    "rollup-plugin-livereload": "^2.0.0",
-    "rollup-plugin-svelte": "^7.1.2",
-    "svelte": "^3.55.0"
+    "@rollup/plugin-commonjs": "^29.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "rollup": "^4.60.2",
+    "rollup-plugin-css-only": "^4.5.5",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-svelte": "^7.2.3",
+    "svelte": "^4.2.20"
   },
   "dependencies": {
-    "concurrently": "^8.2.2",
-    "express": "^4.19.2",
+    "concurrently": "^9.2.1",
+    "express": "^5.2.1",
     "inline-source": "^8.0.3",
     "inliner": "^1.13.1",
-    "sirv-cli": "^2.0.0"
+    "sirv-cli": "^3.0.1"
   }
 }
