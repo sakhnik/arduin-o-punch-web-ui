@@ -10,6 +10,8 @@ const __dirname = path.dirname(__filename);
 var storedSettings = {
   id: '19',
   key: '112233445566',
+  't-act': 600,
+  't-eco': 10800,
   'rec-size': '512',
   'rec-bits': '2',
   'rec-days': '1'

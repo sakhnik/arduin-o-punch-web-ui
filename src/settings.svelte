@@ -7,6 +7,8 @@ import KeyEntry from './key-entry.svelte'
 
 let id = 19
 let cardKey = '112233445566'
+let tActS = 600
+let tEcoS = 3 * 3600
 let recordSize = 512
 let recordBits = 2
 let recordDays = 1
@@ -30,6 +32,10 @@ onMount(async () => {
       document.title = 'AOP ' + value
     } else if (key == 'key') {
       cardKey = value;
+    } else if (key == 't-act') {
+      tActS = Number(value);
+    } else if (key == 't-eco') {
+      tEcoS = Number(value);
     } else if (key == 'rec-size') {
       recordSize = Number(value);
     } else if (key == 'rec-bits') {
@@ -54,6 +60,14 @@ onMount(async () => {
         <tr>
           <td><label for='key'>Ключ:</label></td>
           <td><KeyEntry id='key' bind:value={cardKey}/></td>
+        </tr>
+        <tr>
+          <td><label for='tActS'>Час активності (сек):</label></td>
+          <td><input type='number' id='t-act' name='t-act' min='0' max='65535' bind:value={tActS}/></td>
+        </tr>
+        <tr>
+          <td><label for='tEcoS'>Час екорежиму (сек):</label></td>
+          <td><input type='number' id='t-eco' name='t-eco' min='0' max='86400' bind:value={tEcoS}/></td>
         </tr>
         <tr>
           <td><label for='record-size'>Записів у журналі:</label></td>
