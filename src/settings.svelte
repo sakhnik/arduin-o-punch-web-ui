@@ -7,8 +7,8 @@ import KeyEntry from './key-entry.svelte'
 
 let id = 19
 let cardKey = '112233445566'
-let tActS = 600
-let tEcoS = 3 * 3600
+let activeMin = 10
+let ecoMin = 3 * 60
 let recordSize = 512
 let recordBits = 2
 let recordDays = 1
@@ -33,9 +33,9 @@ onMount(async () => {
     } else if (key == 'key') {
       cardKey = value;
     } else if (key == 't-act') {
-      tActS = Number(value);
+      activeMin = Number(value);
     } else if (key == 't-eco') {
-      tEcoS = Number(value);
+      ecoMin = Number(value);
     } else if (key == 'rec-size') {
       recordSize = Number(value);
     } else if (key == 'rec-bits') {
@@ -62,12 +62,12 @@ onMount(async () => {
           <td><KeyEntry id='key' bind:value={cardKey}/></td>
         </tr>
         <tr>
-          <td><label for='tActS'>Час активності (сек):</label></td>
-          <td><input type='number' id='t-act' name='t-act' min='0' max='65535' bind:value={tActS}/></td>
+          <td><label for='activeMin'>Час активності (хв):</label></td>
+          <td><input type='number' id='t-act' name='t-act' min='0' max='1440' bind:value={activeMin}/></td>
         </tr>
         <tr>
-          <td><label for='tEcoS'>Час екорежиму (сек):</label></td>
-          <td><input type='number' id='t-eco' name='t-eco' min='0' max='86400' bind:value={tEcoS}/></td>
+          <td><label for='ecoMin'>Час екорежиму (хв):</label></td>
+          <td><input type='number' id='t-eco' name='t-eco' min='0' max='1440' bind:value={ecoMin}/></td>
         </tr>
         <tr>
           <td><label for='record-size'>Записів у журналі:</label></td>
